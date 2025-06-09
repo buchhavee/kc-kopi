@@ -1,0 +1,84 @@
+---
+import vinsmagning from "../assets/image7.webp";
+---
+
+<section>
+  <div class="infosektion">
+    <div class="text">
+      <h2>Kom på en kulinarisk smagsoplevelse - tilmeld dig vores vinsmagninger her</h2>
+      <p class="subtext">Vores eksklusive vinsmagningsarrangementer byder på nøje udvalgte vine præsenteret af erfarne sommelierer i stemningsfulde og elegante omgivelser. En uforglemmelig oplevelse for den kræsne vinelsker, der ønsker det ypperste inden for smag, viden og atmosfære</p>
+      <a href="event" class="read-more">
+        Læs mere
+        <span aria-hidden="true" style="display:inline-block; width:1em; height:1em;">
+          <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 6 15 12 9 18"></polyline>
+          </svg>
+        </span>
+      </a>
+    </div>
+    <div class="image">
+      <img src={vinsmagning.src} alt="Vinsmagnings event" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<style>
+  section {
+    background-color: var(--color-bg-red);
+    padding-block: 4rem;
+    padding-inline: 2rem;
+  }
+  .infosektion {
+    position: relative;
+    max-width: 1200px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .subtext {
+    color: rgb(226, 226, 226);
+  }
+  .image {
+    flex: 1;
+    max-width: 600px;
+  }
+
+  .image {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    display: block;
+  }
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    color: var(--color-white);
+    max-width: 600px;
+    padding-block: 1rem;
+  }
+
+  @media (min-width: 1200px) {
+    .infosektion {
+      flex-direction: row;
+    }
+
+    .text {
+      flex: 1;
+      order: 2;
+    }
+  }
+</style>

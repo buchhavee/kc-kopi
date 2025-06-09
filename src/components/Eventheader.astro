@@ -1,0 +1,92 @@
+---
+import Navbar from "./Navbar.astro";
+---
+
+<header>
+  <div class="headergrid">
+    <nav class="navbar">
+      <Navbar />
+    </nav>
+    <div class="overlay">
+      <div class="redoverlay">
+        <div class="grid">
+          <div class="headercontent">
+            <h1>Vores vinsmagningers events</h1>
+            <p>Leder du efter en ny oplevelse, tilmeld dig til vores vinsmagninger og få en uforglemmelig aften med unikke vin.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  header {
+    background-image: url("/src/assets/event-header.webp");
+    height: 70vh;
+    min-height: 500px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 100;
+  }
+
+  .redoverlay {
+    background: linear-gradient(180deg, #41141500 0%, #411415 100%);
+    width: 100%;
+    height: 100%;
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+  .headergrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    position: relative;
+    height: 100%;
+  }
+  .navbar {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+  img {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+  }
+  .headercontent {
+    color: var(--color-white);
+    z-index: 2;
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    align-content: end;
+    padding: 2rem;
+    padding-bottom: 100px;
+  }
+  .grid {
+    max-width: 1250px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    width: 100%;
+    height: 100%;
+  }
+</style>

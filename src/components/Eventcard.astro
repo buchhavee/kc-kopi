@@ -1,0 +1,131 @@
+---
+const { date, header, name1, name2, text, eventimg } = Astro.props;
+
+import Udvalgtevinebutton from "./Udvalgtevinebutton.astro";
+---
+
+<article>
+  <div class="img_container">
+    <img src={eventimg.src} alt="Profilbillede" loading="lazy" />
+  </div>
+  <div class="event-heading">
+    <p class="date">{date}</p>
+    <h3>{header}</h3>
+  </div>
+  <div class="content">
+    <h4>Arrangører</h4>
+    <p>{name1}</p>
+    <p>{name2}</p>
+    <h6>Info</h6>
+    <p class="event-text">{text}</p>
+  </div>
+  <div class="margin">
+    <Udvalgtevinebutton link="/eventpage" linktekst="Se detaljer" color="alightred" />
+  </div>
+</article>
+
+<style>
+  article {
+    background-color: var(--color-red-light);
+    border-radius: 7px;
+    border: 2px solid rgba(0, 0, 0, 0.15);
+    width: 320px;
+    min-width: 320px;
+    max-width: 320px;
+    height: 900px;
+    min-height: 600px;
+    max-height: 900px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin: 0;
+  }
+
+  .img_container {
+    height: 220px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 7px 7px 0 0;
+    flex-shrink: 0;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .event-heading {
+    margin-top: 10px;
+  }
+
+  .content {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding-bottom: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .event-text {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    flex: 1 1 auto;
+  }
+
+  .margin {
+    margin: 0 20px 20px 20px;
+    height: 50px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    flex-shrink: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    color: var(--color-bg-beige);
+    margin: 0 0 8px 0;
+    padding: 0 20px;
+    text-align: left;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .date {
+    opacity: 0.7;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    padding: 0 20px;
+  }
+
+  .bold {
+    margin-top: 20px;
+  }
+
+  @media screen and (max-width: 400px) {
+    article {
+      width: 90vw;
+      min-width: 90vw;
+      max-width: 90vw;
+      height: 480px;
+      min-height: 480px;
+      max-height: 480px;
+    }
+    .img_container {
+      height: 120px;
+    }
+  }
+</style>

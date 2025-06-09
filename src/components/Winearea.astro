@@ -1,0 +1,31 @@
+---
+const { areas } = Astro.props;
+const { img } = Astro.props;
+---
+
+<div>
+  <h2>Områder</h2>
+  <p>{areas}</p>
+  <img src={img} alt="" />
+</div>
+
+<style>
+  @media screen and (min-width: 800px) {
+    div {
+      order: 1;
+    }
+    img {
+      padding-bottom: 0px;
+    }
+  }
+  h2,
+  p {
+    color: var(--color-white);
+  }
+  img {
+    padding-block: 120px;
+    width: 100%;
+    max-width: 400px;
+    object-fit: contain;
+  }
+</style>

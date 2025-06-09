@@ -1,0 +1,258 @@
+---
+import logopart1 from "../assets/vektor/logopart1.svg";
+---
+
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+<section
+  class="gallery-section"
+  x-data="{
+    images: [
+      'https://waopysxirqtzanbngglt.supabase.co/storage/v1/object/sign/instagram/pexels-leeloothefirst-4622303.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9kMjZiZDBjMS1jNTI3LTRlZDEtOWZiOS1iYWYxNGZmMzNjNjEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbnN0YWdyYW0vcGV4ZWxzLWxlZWxvb3RoZWZpcnN0LTQ2MjIzMDMuanBnIiwiaWF0IjoxNzQ5MzA2MjkzLCJleHAiOjE3ODA4NDIyOTN9.q12ocuayu5VO6BYswjWbZGrVLWprradFHOlajkSgV8M',
+      'https://waopysxirqtzanbngglt.supabase.co/storage/v1/object/sign/instagram/10.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9kMjZiZDBjMS1jNTI3LTRlZDEtOWZiOS1iYWYxNGZmMzNjNjEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbnN0YWdyYW0vMTAuSlBHIiwiaWF0IjoxNzQ5MzA2MzI1LCJleHAiOjE3ODA4NDIzMjV9.OAC4Z81lR9ynobylg9sLkzwNLZGUPhsHbXaLrhS5ubc',
+      'https://waopysxirqtzanbngglt.supabase.co/storage/v1/object/sign/instagram/Eleganza%20del%20Barolo%202019.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9kMjZiZDBjMS1jNTI3LTRlZDEtOWZiOS1iYWYxNGZmMzNjNjEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbnN0YWdyYW0vRWxlZ2FuemEgZGVsIEJhcm9sbyAyMDE5LnBuZyIsImlhdCI6MTc0OTMwNjM0MSwiZXhwIjoxNzgwODQyMzQxfQ.5ea6rhaM9jr9jUoieU-KfDUSmC72c_zRAfjPuleieMo',
+      'https://waopysxirqtzanbngglt.supabase.co/storage/v1/object/sign/instagram/8.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9kMjZiZDBjMS1jNTI3LTRlZDEtOWZiOS1iYWYxNGZmMzNjNjEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbnN0YWdyYW0vOC5KUEciLCJpYXQiOjE3NDkzMDYzNTYsImV4cCI6MTc4MDg0MjM1Nn0.muxp8E-LqCEWrIF2sPSgi1V-65rsaF0pIzxadL_qGKA',
+      'https://waopysxirqtzanbngglt.supabase.co/storage/v1/object/sign/instagram/pexels-ekrulila-18338619.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9kMjZiZDBjMS1jNTI3LTRlZDEtOWZiOS1iYWYxNGZmMzNjNjEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbnN0YWdyYW0vcGV4ZWxzLWVrcnVsaWxhLTE4MzM4NjE5LmpwZyIsImlhdCI6MTc0OTMwNjM2NywiZXhwIjoxNzgwODQyMzY3fQ.PQPzXvBtq_DDlSQzPKR1yelXctYph3WjwkXS6ao1nHg',
+      'https://waopysxirqtzanbngglt.supabase.co/storage/v1/object/sign/instagram/9.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9kMjZiZDBjMS1jNTI3LTRlZDEtOWZiOS1iYWYxNGZmMzNjNjEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbnN0YWdyYW0vOS5KUEciLCJpYXQiOjE3NDkzMDYzNzksImV4cCI6MTc4MDg0MjM3OX0.00JqyIISsGORjRQzfaDVEkLXdi8aOWlhxn_6Yny2u_M'
+    ],
+    current: 0,
+    visible: 1,
+    resizeKey: 0,
+    updateVisible() {
+      if(window.innerWidth < 600) this.visible = 1;
+      else if(window.innerWidth < 900) this.visible = 2;
+      else if(window.innerWidth < 1200) this.visible = 3;
+      else this.visible = 4;
+    },
+    get max() { return Math.max(0, this.images.length - this.visible); },
+    get dotCount() { return Math.max(1, this.images.length - this.visible + 1); },
+    next() { if (this.current < this.max) this.current++; },
+    prev() { if (this.current > 0) this.current--; },
+    goTo(idx) { this.current = idx; },
+    handleResize() {
+      this.updateVisible();
+      if(this.current > this.max) this.current = this.max < 0 ? 0 : this.max;
+      this.resizeKey++;
+    }
+  }"
+  x-init="updateVisible(); window.addEventListener('resize', () => { handleResize() })"
+>
+  <img src={logopart1.src} alt="" class="gallery-svg" />
+  <div class="gallery-header">
+    <h3>Følg med på instagram</h3>
+    <p>Hold dig opdateret på nye producenter, kommende smagninger, særlige flasker og hvad vi selv drikker lige nu.</p>
+  </div>
+  <div class="gallery-slider">
+    <div class="gallery-fade gallery-fade-left"></div>
+    <div class="gallery-fade gallery-fade-right"></div>
+    <div class="gallery-images" :style="`transform: translateX(-${current * (100 / images.length)}%); transition: transform 0.5s cubic-bezier(.77,0,.18,1);`" style="will-change: transform;">
+      <template x-for="img in images" :key="img">
+        <img :src="img" alt="" />
+      </template>
+    </div>
+    <div class="gallery-controls">
+      <div class="gallery-dots">
+        <template x-for="i in dotCount" :key="resizeKey">
+          <span class="dot" :class="{active: current === (i-1)}" :aria-label="`Gå til slide ${i}`" tabindex="0" @click="goTo(i-1)" @keydown.enter="goTo(i-1)" style="cursor:pointer"></span>
+        </template>
+      </div>
+      <div class="gallery-arrows">
+        <button @click="prev" :disabled="current === 0" aria-label="Forrige">
+          <span style="font-size:1.1rem;">&#8592;</span>
+        </button>
+        <button @click="next" :disabled="current === max" aria-label="Næste">
+          <span style="font-size:1.1rem;">&#8594;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <style>
+    /* Mobile-first base styles */
+    section {
+      height: 700px;
+      min-height: 700px;
+      max-height: 700px;
+    }
+    .gallery-section {
+      background: #f9eed2;
+      padding: 5rem 2rem 0 2rem;
+      position: relative;
+      min-height: 700px;
+      overflow: hidden;
+    }
+    .gallery-svg {
+      position: absolute;
+      top: 0;
+      right: 2vw;
+      width: 160px;
+      height: auto;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .gallery-header {
+      max-width: 1200px;
+      margin: 0 auto 2.5rem auto;
+      text-align: left;
+      position: relative;
+      z-index: 2;
+    }
+    .gallery-header h3 {
+      font-size: clamp(1.25rem, 5vw, 2rem);
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+    .gallery-header p {
+      font-size: 1.2rem;
+      color: #222;
+      margin-bottom: 0;
+    }
+    .gallery-slider {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2vw;
+      overflow: hidden;
+    }
+    .gallery-fade {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50px;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .gallery-fade-left {
+      left: 0;
+      background: linear-gradient(to right, var(--color-bg-beige) 0%, transparent 50%);
+    }
+    .gallery-fade-right {
+      right: 0;
+      background: linear-gradient(to left, var(--color-bg-beige) 0%, transparent 50%);
+    }
+    .gallery-images {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      min-width: fit-content;
+      transition: gap 0.3s;
+    }
+    .gallery-images img {
+      max-width: 300px;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 20px;
+      background: #eee;
+      flex-shrink: 0;
+      box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.07);
+      transition:
+        width 0.3s,
+        height 0.3s;
+    }
+    .gallery-controls {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      width: 100%;
+    }
+    .gallery-dots {
+      display: flex;
+      gap: 0.4rem;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.15);
+      display: inline-block;
+      transition:
+        background 0.2s,
+        transform 0.2s;
+      outline: none;
+    }
+    .dot.active {
+      background: #222;
+      transform: scale(1.15);
+    }
+    .gallery-arrows {
+      display: flex;
+      gap: 0.5rem;
+      margin-left: auto;
+    }
+    .gallery-arrows button {
+      background: none;
+      border: 2px solid var(--color-bg-red-dark);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition:
+        background 0.2s,
+        border-color 0.2s;
+      padding: 0;
+    }
+    .gallery-arrows button:disabled {
+      opacity: 0.7;
+      cursor: default;
+    }
+    .gallery-arrows button:hover:enabled {
+      background: var(--color-beige);
+      border-color: var(--color-red);
+    }
+
+    /* Media querries */
+
+    @media (min-width: 300px) {
+      .gallery-images {
+        gap: 2.5vw;
+      }
+      .gallery-images img {
+        width: 200px;
+        height: 200px;
+      }
+      .gallery-slider {
+        gap: 2rem;
+      }
+
+      section {
+        height: 700px;
+        min-height: 700px;
+        max-height: 700px;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .gallery-images img {
+        width: 200px;
+        height: 200px;
+      }
+      .gallery-slider {
+        padding: 0 4vw;
+      }
+    }
+    @media (min-width: 1200px) {
+      .gallery-images img {
+        width: 300px;
+        height: 300px;
+      }
+      .gallery-slider {
+        padding: 0 2vw;
+      }
+      .gallery-section {
+        padding-top: 2rem;
+      }
+      section {
+        height: 700px;
+        min-height: 700px;
+        max-height: 700px;
+      }
+    }
+  </style>
+</section>

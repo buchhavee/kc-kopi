@@ -1,0 +1,87 @@
+---
+
+---
+
+<section>
+  <div class="overlay">
+    <div class="indhold">
+      <h2>Uforglemmelige vinsmagninger</h2>
+      <p>Vores samarbejde med diverse kunder tillader os at skabe eksklusive vinsmagnings oplevelser som spiller på sanserne. Deltag i fantastiske arrangementer med vin og mad parringer, eller kom med i samarbejdet om at få vores vine til jeres behov.</p>
+      <a href="#" class="read-more">
+        Læs mere
+        <span aria-hidden="true" style="display:inline-block; width:1em; height:1em;">
+          <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 6 15 12 9 18"></polyline>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  a {
+    color: var(--color-bg-beige);
+  }
+
+  section {
+    background-image: url(/src/assets/vinsmagning.webp);
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: top center;
+    background-size: cover;
+    height: 55vh;
+    color: var(--color-bg-beige);
+    position: relative;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+
+  .indhold {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: 10rem 2rem 0 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  h2 {
+    width: auto;
+    line-height: 2rem;
+  }
+
+  p {
+    padding-bottom: 1rem;
+    max-width: 700px;
+  }
+
+  a:hover {
+    color: var(--color-white);
+  }
+
+  @media (min-width: 800px) {
+    section {
+      height: 700px;
+      background-attachment: fixed;
+    }
+
+    .indhold {
+      padding-top: 10rem;
+    }
+
+    h2 {
+      width: 500px;
+      line-height: 4rem;
+    }
+  }
+</style>
