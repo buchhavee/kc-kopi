@@ -52,6 +52,7 @@ h1 {
 
 h2 {
   font-size: 3rem;
+  padding-bottom: 10px;
 }
 h3 {
   font-size: 2.5rem;
@@ -144,7 +145,7 @@ h1 .accentfont {
   top: 50%;
   transform: translateY(-50%);
   z-index: 1100;
-  background: rgba(251, 242, 220, 0.9); /* var(--color-beige) med gennemsigtighed */
+  background-color: rgba(0, 0, 0, 0.4);
   border: none;
   border-radius: 50%;
   width: 44px;
@@ -162,7 +163,7 @@ h1 .accentfont {
 }
 
 .scroll-arrow svg polyline {
-  stroke: var(--color-red);
+  stroke: var(--color-beige);
 }
 
 .scroll-arrow svg {
@@ -179,7 +180,6 @@ h1 .accentfont {
 }
 
 .scroll-arrow:hover {
-  background: var(--color-beige);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   outline: 2px solid var(--color-red-light);
   transition: all 0.3s ease-in-out;
@@ -194,6 +194,30 @@ h1 .accentfont {
     width: 16px;
     height: 16px;
   }
+}
+
+/* Events section */
+.events-scroll-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.events {
+  display: flex;
+  gap: 30px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 10px;
+  scrollbar-width: none;
+  max-width: 100%;
+  margin: auto;
+}
+
+.events::-webkit-scrollbar {
+  display: none;
 }
 
 /* Media queries */
