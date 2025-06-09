@@ -1,0 +1,644 @@
+---
+// Navbar.astro funktionalitet er kodet ved brug af AI, specifikt v0.dev og GitHub Copilot.
+// Vi har brugt AI til at generere HTML-strukturen og Javascript.
+// Vi har dog selv tilføjet og modificeret funktionaliteten for at sikre, at den passer til vores designkrav.
+// Selve stylingen og struktur af menu er lavet af os selv
+
+const currentPath = Astro.url.pathname;
+
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Fetch vinliste fra Supabase
+const { data: producers, error } = await supabase.from("Winelist").select("*");
+
+if (error) {
+  console.error("Supabase fetch error:", error);
+}
+
+function groupByLandAndRegion(producers) {
+  const grouped = {};
+  for (const p of producers) {
+    if (!grouped[p.land]) grouped[p.land] = {};
+    if (!grouped[p.land][p.region]) grouped[p.land][p.region] = [];
+    grouped[p.land][p.region].push(p);
+  }
+  return grouped;
+}
+
+const groupedProducers = groupByLandAndRegion(producers || []);
+---
+
+<nav id="main-navbar">
+  <div class="nav-container">
+    <div class="nav-wrapper">
+      <!-- Desktop Navigation -->
+      <div class="nav-desktop">
+        <a href="/" class={`nav-link${currentPath === "/" ? " active" : ""}`}>
+          Forside
+          <span class="nav-underline"></span>
+        </a>
+        <a href="/event" class={`nav-link${currentPath.startsWith("/event") ? " active" : ""}`}>
+          Events
+          <span class="nav-underline"></span>
+        </a>
+
+        <!-- Dropdown -->
+        <div class="dropdown-container">
+          <button class={`dropdown-trigger nav-link${currentPath.startsWith("/producent") ? " active" : ""}`} type="button">
+            Producentliste
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <span class="nav-underline"></span>
+          </button>
+
+          <!-- Desktop dropdown menu -->
+          <div class="dropdown-menu">
+            <div class="dropdown-content">
+              {
+                Object.entries(groupedProducers).map(([land, region]) => (
+                  <div class="dropdown-column">
+                    <h3 class="column-title">{land}</h3>
+                    {Object.entries(region).map(([region, producers]) => (
+                      <>
+                        <h4 class="region-title">{region}</h4>
+                        <ul class="column-list">
+                          {producers.map((producer) => (
+                            <li>
+                              <a href={`/product/${producer.slug}`} class="dropdown-link">
+                                {producer.name}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    ))}
+                    <div class="dropdown-divider" />
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+
+        <a href="/om_os" class={`nav-link${currentPath.startsWith("/om_os") ? " active" : ""}`}>
+          Om os
+          <span class="nav-underline"></span>
+        </a>
+        <a href="/kontakt" class={`nav-link${currentPath.startsWith("/kontakt") ? " active" : ""}`}>
+          Kontakt
+          <span class="nav-underline"></span>
+        </a>
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="mobile-menu-button-container">
+        <button id="mobile-menu-button" class="mobile-menu-button">
+          <svg id="menu-icon" class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          <svg id="close-icon" class="menu-icon close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobil menu -->
+  <div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu-content">
+      <a href="/" class={`mobile-nav-link${currentPath === "/" ? " active" : ""}`}>Forside</a>
+      <a href="/event" class={`mobile-nav-link${currentPath.startsWith("/event") ? " active" : ""}`}>Events</a>
+
+      <!-- Mobil dropdown -->
+      <div class="mobile-dropdown">
+        <button id="mobile-dropdown-button" class={`mobile-dropdown-button${currentPath.startsWith("/producent") ? " active" : ""}`}>
+          Producentliste <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg></button
+        >
+
+        <div id="mobile-dropdown-content" class="mobile-dropdown-content">
+          <div class="mobile-dropdown-inner">
+            {
+              Object.entries(groupedProducers).map(([country, regions]) => (
+                <div class="mobile-column">
+                  <h3 class="mobile-column-title">{country}</h3>
+                  {Object.entries(regions).map(([region, producers]) => (
+                    <>
+                      <h4 class="mobile-region-title">{region}</h4>
+                      <ul class="mobile-column-list">
+                        {producers.map((producer) => (
+                          <li>
+                            <a href={`/product/${producer.slug}`} class="mobile-dropdown-link">
+                              {producer.name}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ))}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <a href="/om_os" class={`mobile-nav-link${currentPath.startsWith("/om_os") ? " active" : ""}`}>Om os</a>
+      <a href="/kontakt" class={`mobile-nav-link${currentPath.startsWith("/kontakt") ? " active" : ""}`}>Kontakt</a>
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* Reset and base styles */
+  #main-navbar {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    z-index: 1001;
+    position: relative;
+  }
+
+  #main-navbar *,
+  #main-navbar *::before,
+  #main-navbar *::after {
+    box-sizing: border-box;
+  }
+
+  .nav-container {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .nav-wrapper {
+    display: flex;
+    justify-content: center;
+    height: 4rem;
+    position: relative;
+  }
+
+  /* Desktop Navigation */
+  .nav-desktop {
+    display: none;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    position: relative;
+    color: var(--color-white);
+    font-weight: 500;
+    padding: 0.5rem 0;
+    text-decoration: none;
+    font-size: 1rem;
+    font-family: mundial-narrow-variable, sans-serif;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 1000;
+  }
+
+  .nav-link:hover {
+    font-weight: 900;
+  }
+
+  .nav-underline {
+    position: absolute;
+    height: 2px;
+    background-color: var(--color-white);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-link:hover .nav-underline {
+    transform: scaleX(1);
+  }
+
+  .nav-link.active .nav-underline,
+  .dropdown-trigger.active .nav-underline {
+    transform: scaleX(1);
+    background-color: var(--color-beige);
+  }
+
+  .nav-link.active,
+  .dropdown-trigger.active {
+    font-weight: 900;
+  }
+
+  /* Dropdown */
+  .dropdown-container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .dropdown-trigger {
+    position: relative;
+    color: var(--color-white);
+    font-weight: 500;
+    padding: 0.5rem 0;
+    text-decoration: none;
+    font-size: 1rem;
+
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 1000;
+    background: none;
+    border: none;
+  }
+
+  .dropdown-trigger:hover {
+    font-weight: 900;
+  }
+
+  .dropdown-trigger .nav-underline {
+    position: absolute;
+    height: 2px;
+    background-color: var(--color-bg-beige);
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    transform-origin: center;
+    transition: transform 0.3s ease;
+  }
+
+  .dropdown-trigger:hover .nav-underline {
+    transform: scaleX(1);
+  }
+
+  .dropdown-menu {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+    background-color: rgba(44, 0, 0, 0.6);
+    backdrop-filter: blur(15px); /* Tilføjer blur */
+    -webkit-backdrop-filter: blur(12px); /* For Safari */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .dropdown-container:hover .dropdown-menu {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .dropdown-content {
+    display: flex;
+    padding: 2rem;
+    max-width: 80rem;
+    margin: 3rem auto 0;
+  }
+
+  .dropdown-column {
+    flex: 1;
+    padding: 0 2rem;
+  }
+
+  .dropdown-divider {
+    width: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+    position: absolute;
+    top: 6.5rem;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .column-title {
+    font-weight: bold;
+    color: var(--color-white);
+    font-size: 2rem;
+    font-family: kudryashev-d-contrast, sans-serif;
+    margin-bottom: 1.5rem;
+  }
+
+  .region-title {
+    font-weight: 600;
+    color: var(--color-white);
+    font-size: 1.25rem;
+    font-family: kudryashev-d-contrast, sans-serif;
+    margin: 1rem 0 0.5rem 0;
+  }
+
+  .column-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 1rem;
+  }
+
+  .column-list li {
+    margin-bottom: 0.5rem;
+  }
+
+  .column-list li::before {
+    content: "•";
+    margin-right: 0.5rem;
+    color: rgba(255, 255, 255, 0.15);
+  }
+
+  .dropdown-link {
+    color: var(--color-beige);
+    font-family: mundial-narrow-variable, sans-serif;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .dropdown-link:hover {
+    color: var(--color-beige);
+  }
+
+  /* Mobile menu button */
+  .mobile-menu-button-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1001;
+  }
+
+  .mobile-menu-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    color: var(--color-white);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    position: relative;
+    z-index: 1002;
+  }
+
+  .menu-icon {
+    height: 1.5rem;
+    width: 1.5rem;
+    position: relative;
+    z-index: 1000;
+  }
+
+  .close-icon {
+    display: none;
+    position: relative;
+    z-index: 1000;
+  }
+
+  .mobile-menu-button.active .menu-icon {
+    display: none;
+  }
+
+  .mobile-menu-button.active .close-icon {
+    display: block;
+  }
+
+  /* Mobile menu */
+  .mobile-menu {
+    display: block;
+    position: relative;
+    top: -4rem;
+    transition:
+      max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      backdrop-filter 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-20px);
+    z-index: 1;
+  }
+
+  .mobile-menu.active {
+    max-height: 100vh;
+    opacity: 1;
+    transform: translateY(0);
+    overflow: visible;
+  }
+
+  .mobile-menu-content {
+    padding: 0.5rem 1rem 0.75rem;
+    background-color: rgba(44, 0, 0, 0.6);
+    backdrop-filter: blur(15px); /* Tilføjer blur */
+    -webkit-backdrop-filter: blur(12px); /* For Safari */
+  }
+
+  .mobile-nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: var(--color-white);
+    font-family: mundial-narrow-variable, sans-serif;
+    text-decoration: none;
+    border-radius: 0.375rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .mobile-nav-link:hover {
+    background-color: var(--color-red-light);
+  }
+
+  .mobile-nav-link.active,
+  .mobile-dropdown-button.active {
+    font-weight: 900;
+    color: var(--color-beige);
+  }
+
+  /* Mobile dropdown */
+
+  #mobile-dropdown-button {
+    font-size: 1.125rem;
+    font-weight: 200;
+  }
+
+  .mobile-dropdown {
+    padding: 0.25rem 0;
+  }
+
+  .mobile-dropdown-button {
+    width: 100%;
+    text-align: left;
+    display: block;
+    padding: 0.5rem 1rem;
+    color: var(--color-white);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition:
+      background-color 0.3s ease,
+      border-radius 0.3s ease;
+    font-size: 1rem;
+    border-radius: 0.375rem;
+  }
+
+  .mobile-dropdown-button:hover {
+    background-color: var(--color-red-light);
+    border-radius: 0.375rem;
+  }
+
+  .mobile-dropdown-content {
+    transition: all 0.3s ease;
+    overflow: hidden;
+    max-height: 0;
+    border-radius: 10px;
+  }
+
+  .mobile-dropdown-content.active {
+    background-color: #.6);
+    backdrop-filter: blur(15px); /* Tilføjer blur */
+    -webkit-backdrop-filter: blur(12px); /* For Safari */
+    max-height: 120vh;
+    overflow-y: auto;
+  }
+
+  .mobile-dropdown-inner {
+    padding: 0.5rem 1.5rem 0.5rem 1rem;
+  }
+
+  .mobile-column {
+    margin-bottom: 1.5rem;
+  }
+
+  .mobile-column-title {
+    font-weight: bold;
+    color: var(--color-white);
+    font-size: 1.5rem;
+    padding-block: 0.8rem;
+    font-family: kudryashev-d-contrast, sans-serif;
+  }
+
+  .mobile-region-title {
+    font-weight: 600;
+    color: var(--color-white);
+    font-size: 1.1rem;
+    font-family: kudryashev-d-contrast, sans-serif;
+    padding-block: 0.5rem;
+    corner-radius: 20%;
+  }
+
+  .mobile-column-list {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0 0 0 1rem;
+  }
+
+  .mobile-column-list li {
+    margin-bottom: 0.5rem;
+  }
+
+  .mobile-column-list li::before {
+    content: "•";
+    margin-right: 0.5rem;
+    color: var(--color-beige);
+  }
+
+  .mobile-dropdown-link {
+    color: var(--color-white);
+    font-family: mundial-narrow-variable, sans-serif;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-dropdown-link:hover {
+    color: var(--color-bg-beige);
+    border-radius: 5px;
+    font-weight: bold;
+    transition: ease-in-out 0.3s;
+  }
+
+  .mobile-divider {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.15);
+    margin: 1rem 0;
+  }
+
+  /* Navbar links */
+
+  #mobile-dropdown-button {
+    font-size: 1rem;
+  }
+
+  .mobile-menu-content a {
+    font-size: 1rem;
+  }
+
+  /* Media Queries */
+  @media (min-width: 768px) {
+    .nav-desktop {
+      display: flex;
+    }
+
+    .mobile-menu-button-container {
+      display: none;
+    }
+
+    .mobile-menu {
+      display: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener("click", () => {
+        mobileMenuButton.classList.toggle("active");
+        mobileMenu.classList.toggle("active");
+      });
+    }
+
+    // Mobile dropdown toggle
+    const mobileDropdownButton = document.getElementById("mobile-dropdown-button");
+    const mobileDropdownContent = document.getElementById("mobile-dropdown-content");
+
+    if (mobileDropdownButton && mobileDropdownContent) {
+      mobileDropdownButton.addEventListener("click", () => {
+        mobileDropdownContent.classList.toggle("active");
+      });
+    }
+
+    document.addEventListener("mousedown", (event) => {
+      const isMenuOpen = mobileMenu.classList.contains("active");
+      if (isMenuOpen && !mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+        mobileMenuButton.classList.remove("active");
+        mobileMenu.classList.remove("active");
+      }
+    });
+
+    // Force reload for dynamic producer links
+    document.querySelectorAll(".dropdown-link, .mobile-dropdown-link").forEach((link) => {
+      link.addEventListener("click", function (e) {
+        if (window.location.pathname === this.getAttribute("href")) {
+          e.preventDefault();
+          window.location.href = this.getAttribute("href");
+        }
+      });
+    });
+  });
+</script>

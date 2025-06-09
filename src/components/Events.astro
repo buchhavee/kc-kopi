@@ -1,0 +1,118 @@
+---
+import Eventcard from "./Eventcard.astro";
+
+import eventimg1 from "../assets/event_img1.webp";
+import eventimg3 from "../assets/event_img3.webp";
+import eventimg4 from "../assets/vinsmagning.webp";
+---
+
+<article>
+  <div class="width">
+    <div class="event-header">
+      <p>Nyheder</p>
+      <h2>Vinsmagninger og andre oplevelser</h2>
+    </div>
+    <p>Til vores vinsmagning får du mulighed for at smage på et nøje udvalgt sortiment af både klassiske og unikke vine. Det bliver en lærerig, hyggelig og smagfuld oplevelse for både nybegyndere og kendere.</p>
+    <div class="article-grid">
+      <div class="content">
+        <div class="categories">
+          <button id="filter">Kun vin</button>
+          <button id="filter">Vin og snacks</button>
+          <button id="filter">Vin og mad</button>
+        </div>
+        <div class="events">
+          <Eventcard color="beige" date="22 juni" header="Hvidvin og Rosé aften på terassen" name1="Maria Kesby" name2="Kahlenberg & Christiansen" text="Din næste sommerfavorit venter. Kom og smag, hyg og nyd en masse fænomenale hvidvine samt rosévine i solen." eventimg={eventimg1} />
+          <Eventcard date="5 juli" header="Bourgogne aften - Gå på opdagelse i fransk vin" name1="Kasper Kahlenberg" name2="Kahlenberg & Christiansen" text="Oplev specielle vine, med fyldig og kraftige smage, mens vi guider jer gennem historierne fra vingårdene til flaskerne." eventimg={eventimg3} />
+          <Eventcard date="18 august" header="5-retters menu og vinmenu på Søllerød Kro" name1="Kahlenberg & Christiansen" name2="Søllerød Kro" text="Vi inviterer dig til en eksklusiv aften med sublime smagsoplevelser. Kokkene fra Søllerød Kro har sammensat en 5-retters menu med fokus på sæsonens bedste råvarer, og vi har været i vinkælderen og finde noget særligt frem til aftenen." eventimg={eventimg4} />
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<style>
+  button {
+    cursor: pointer;
+  }
+
+  .event-header p {
+    padding-bottom: 5px;
+    opacity: 0.7;
+  }
+  .width {
+    max-width: 1250px;
+    margin: auto;
+    padding-inline: 2rem;
+  }
+
+  .categories {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+  h5 {
+    padding-bottom: 16px;
+  }
+  p {
+    padding-top: 24px;
+    padding-bottom: 40px;
+  }
+  article {
+    background-color: var(--color-bg-red);
+    color: var(--color-white);
+  }
+
+  .article-grid {
+    padding-bottom: 120px;
+    padding-top: 20px;
+    max-width: 600px;
+    margin: auto;
+  }
+  button {
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    color: var(--color-bg-beige);
+    margin-bottom: 15px;
+  }
+
+  .button_clicked {
+    background-color: var(--color-bg-beige);
+    border: none 2px var(--color-bg-beige);
+    border-radius: 5px;
+    color: var(--color-bg-red);
+  }
+
+  .events {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    .events {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    .article-grid {
+      padding-bottom: 120px;
+      max-width: 1200px;
+      margin: auto;
+    }
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll("button");
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      buttons.forEach((button) => button.classList.remove("button_clicked"));
+      button.classList.add("button_clicked");
+    });
+  });
+</script>
