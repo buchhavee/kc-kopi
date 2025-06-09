@@ -115,7 +115,6 @@ import redlogo from "../assets/vektor/red_logo.svg";
     .grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 3rem;
       align-items: start;
     }
 
@@ -313,6 +312,7 @@ import redlogo from "../assets/vektor/red_logo.svg";
     @media (min-width: 1200px) {
       .grid {
         grid-template-columns: 1fr 1fr 1fr;
+        gap: 2rem;
       }
 
       .logo-section {
@@ -328,6 +328,9 @@ import redlogo from "../assets/vektor/red_logo.svg";
     }
 
     @media (max-width: 600px) {
+      .grid {
+        gap: 0rem;
+      }
       .logo-container {
         width: 250px;
         height: 250px;

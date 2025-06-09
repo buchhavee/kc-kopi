@@ -138,6 +138,64 @@ h1 .accentfont {
   color: var(--color-beige);
 }
 
+/* Scroll pile */
+.scroll-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1100;
+  background: rgba(251, 242, 220, 0.9); /* var(--color-beige) med gennemsigtighed */
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  padding: 0;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: all 0.3s ease-in-out;
+}
+
+.scroll-arrow svg polyline {
+  stroke: var(--color-red);
+}
+
+.scroll-arrow svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.scroll-arrow.left {
+  left: 10px;
+}
+.scroll-arrow.right {
+  right: 10px;
+}
+
+.scroll-arrow:hover {
+  background: var(--color-beige);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  outline: 2px solid var(--color-red-light);
+  transition: all 0.3s ease-in-out;
+}
+
+@media (max-width: 600px) {
+  .scroll-arrow {
+    width: 32px;
+    height: 32px;
+  }
+  .scroll-arrow svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
 /* Media queries */
 @media (min-width: 768px) {
   .grid-2 {
