@@ -3,9 +3,9 @@ if (typeof window !== "undefined") {
   const progress = document.getElementById("scroll-progress");
   const leftArrow = document.querySelector(".scroll-arrow.left");
   const rightArrow = document.querySelector(".scroll-arrow.right");
-  const scrollAmount = 350; // px pr. klik
-  const scrollStep = 7; // mindre værdi = langsommere
-  const scrollIntervalMs = 20; // større værdi = langsommere
+  const scrollAmount = 350;
+  const scrollStep = 7;
+  const scrollIntervalMs = 20;
 
   let scrollInterval = null;
 
@@ -34,11 +34,11 @@ if (typeof window !== "undefined") {
 
     if (leftArrow && rightArrow) {
       leftArrow.addEventListener("click", () => {
-        stopAutoScroll(); // <- tilføj denne linje
+        stopAutoScroll();
         flex.scrollBy({ left: -scrollAmount, behavior: "smooth" });
       });
       rightArrow.addEventListener("click", () => {
-        stopAutoScroll(); // <- tilføj denne linje
+        stopAutoScroll();
         flex.scrollBy({ left: scrollAmount, behavior: "smooth" });
       });
 
